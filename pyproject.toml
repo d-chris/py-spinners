@@ -1,0 +1,63 @@
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = [
+  "poetry-core",
+]
+
+[tool.poetry]
+name = "spinners"
+version = "0.0.0"
+description = "Spinners for terminals"
+authors = [
+  "Manraj Singh <manrajsinghgrover@gmail.com>",
+  "Christoph Dörrer <d-chris@web.de>",
+]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/manrajgrover/py-spinners"
+repository = "https://github.com/manrajgrover/py-spinners"
+classifiers = [
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+keywords = [
+  "cli",
+  "spinner",
+  "spinners",
+  "terminal",
+  "term",
+  "console",
+  "ascii",
+  "unicode",
+  "loading",
+  "indicator",
+  "progress",
+  "busy",
+  "wait",
+  "idle",
+  "json",
+]
+include = [ "LICENSE", "cli-spinners/spinners.json", "cli-spinners/license" ]
+
+[tool.poetry.dependencies]
+python = "^3.8.1"
+enum34 = { version = "==1.1.6", python = "<3.4" }
+
+[tool.poetry.group.dev.dependencies]
+tox = "^4.16.0"
+pytest = "^8.3.2"
+pytest-cov = "^5.0.0"
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "primary"
+
+[[tool.poetry.source]]
+name = "testpypi"
+url = "https://test.pypi.org/legacy/"
+priority = "explicit"
