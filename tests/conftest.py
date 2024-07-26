@@ -3,11 +3,13 @@ import enum
 import pytest
 
 from spinners.base import BaseSpinners
+from spinners.enums import EnumSpinners
 
 
 @pytest.fixture(
     params=[
         BaseSpinners,
+        EnumSpinners,
     ],
     ids=lambda cls: cls.__name__,
 )
