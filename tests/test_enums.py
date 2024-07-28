@@ -8,6 +8,8 @@ from spinners.enums import EnumSpinners
 @pytest.fixture
 def _EnumSpinners(spinners):
 
+    EnumSpinners._enums.clear()
+
     EnumSpinners.append(spinners)
 
     yield EnumSpinners()

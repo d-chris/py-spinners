@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """This module tests Spinners enum."""
-from __future__ import unicode_literals, absolute_import
+from __future__ import absolute_import, unicode_literals
 
 import unittest
-
 from enum import Enum
-from spinners import Spinners
+
+from spinners.spinners import Spinners
 
 
 class TestSpinners(unittest.TestCase):

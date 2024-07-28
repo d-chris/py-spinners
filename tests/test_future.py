@@ -16,6 +16,8 @@ def _Spinners():
         },
     )
 
+    Spinners._enums.clear()
+
     Spinners.append(spin)
 
     yield Spinners()

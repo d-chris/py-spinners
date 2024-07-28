@@ -19,6 +19,8 @@ from spinners.future import Spinners
 def classes(request) -> Generator[Type[Any], None, None]:
     cls = request.param
 
+    cls._enums.clear()
+
     yield cls
 
     cls._enums.clear()

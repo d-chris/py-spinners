@@ -87,7 +87,13 @@ class Spinners(EnumSpinners):
 
         content = Path(jsonfile).read_text(encoding=kwargs.get("encoding", "utf-8"))
 
-        cls.insert(0, enum.Enum("Spinners", json.loads(content)))
+        cls.insert(
+            kwargs.get("priority", 0),
+            enum.Enum(
+                jsonfile.resolve().as_posix(),
+                json.loads(content),
+            ),
+        )
 
         return cls()
 
