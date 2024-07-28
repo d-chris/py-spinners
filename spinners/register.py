@@ -1,25 +1,29 @@
+from enum import Enum
+
 from spinners.base import BaseSpinners, ValidationError
 
 
-def register_spinner(priority: int = None):
-    """
-    Decorator to register Enum classes with the BaseSpinners class.
-    """
+def register_spinner(cls=None, /, *, priority=-1):
 
-    def decorator(enum_class):
+    def wrap(cls):
         try:
-            BaseSpinners.insert(priority, enum_class)
+            BaseSpinners.insert(priority, cls)
         except ValidationError as e:
-            raise ValidationError(f"{enum_class} is not a suitable spinner") from e
-        except TypeError:
-            BaseSpinners.append(enum_class)
+            raise ValidationError(f"{cls} is not a suitable spinner") from e
 
-        return enum_class
+        return cls
 
-    # If the decorator is used without arguments
-    if callable(priority):
-        enum_class = priority
-        priority = -1
-        return decorator(enum_class)
+    # See if we're being called as @register_spinner or @register_spinner().
+    if cls is None:
+        # We're called with parens.
+        return wrap
 
-    return decorator
+    # We're called as @register_spinner without parens.
+    return wrap(cls)
+
+
+__all__ = [
+    "Enum",
+    "register_spinner",
+    "ValidationError",
+]

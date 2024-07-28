@@ -1,7 +1,7 @@
 import itertools
 from typing import Any
 
-from spinners.base import BaseSpinners, ValidationError
+from spinners.base import BaseSpinners
 
 
 class EnumSpinners(BaseSpinners):

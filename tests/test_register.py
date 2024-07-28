@@ -1,6 +1,8 @@
 import enum
 
-from spinners.register import register_spinner
+import pytest
+
+from spinners.register import *
 
 
 def test_register(classes):
@@ -50,3 +52,12 @@ def test_register_priority(classes):
 
     assert classes._enums[0] == TestLine
     assert classes._enums[1] == TestDot
+
+
+def test_register_noenum():
+
+    with pytest.raises(ValidationError):
+
+        @register_spinner
+        class TestClass:
+            dot = {"interval": 80, "frames": [".  ", ".. ", "...", "   "]}
