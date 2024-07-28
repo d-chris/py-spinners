@@ -1,4 +1,7 @@
 import enum
+import importlib.resources as pkg_resources
+import json
+from pathlib import Path
 from typing import List, Set
 
 from spinners.codepage import *
@@ -53,7 +56,7 @@ class Spinners(EnumSpinners):
         if codepage is None:
             return list(enums)
 
-        def encoder():
+        def encoder(self):
             for enum in enums:
                 spin = getattr(self, enum).value
 
@@ -65,11 +68,43 @@ class Spinners(EnumSpinners):
 
                 yield enum
 
-        return list(encoder())
+        return list(encoder(self))
+
+    @classmethod
+    def codepage(cls) -> str:
+        return get_codepage()
+
+    @classmethod
+    def load_spinners(cls, jsonfile: str = None, **kwargs):
+
+        if jsonfile is None:
+            jsonfile = pkg_resources.files("spinners").joinpath(
+                "../cli-spinners/spinners.json"
+            )
+
+            if not jsonfile.exists():
+                raise FileNotFoundError(f"{jsonfile=} does not exist")
+
+        content = Path(jsonfile).read_text(encoding=kwargs.get("encoding", "utf-8"))
+
+        cls.insert(0, enum.Enum("Spinners", json.loads(content)))
+
+        return cls()
+
+    @property
+    def available(self) -> Set[str]:
+        return set(self.spinners())
+
+    @property
+    def guaranteed(self) -> Set[str]:
+        return set(self.spinners(self.codepage()))
 
 
 def spinners_guaranteed() -> Set[str]:
-    return set(Spinners().spinners(get_codepage()))
+    spin = Spinners()
+    cp = spin.codepage()
+
+    return set(spin.spinners(cp))
 
 
 def spinners_available() -> Set[str]:

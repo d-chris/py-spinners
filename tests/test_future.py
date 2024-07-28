@@ -52,3 +52,14 @@ def test_spinners_validation(_Spinners, invalid_spinner):
 
     with pytest.raises(ValidationSpinnerError):
         _Spinners.append(invalid_spinner)
+
+
+def test_load(_Spinners):
+    _Spinners.load_spinners()
+
+    assert 2 < len(_Spinners.guaranteed) <= len(_Spinners.available)
+
+
+def test_load_raises(_Spinners):
+    with pytest.raises(FileNotFoundError):
+        _Spinners.load_spinners("nonexistent.json")
