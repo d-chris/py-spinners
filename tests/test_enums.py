@@ -6,25 +6,59 @@ from spinners.enums import EnumSpinners
 
 
 @pytest.fixture
-def spin(spinners):
-    spin = EnumSpinners()
+def _EnumSpinners(spinners):
 
-    spin.append(spinners)
+    EnumSpinners.append(spinners)
 
-    yield spin
+    yield EnumSpinners()
 
-    spin._enums.clear()
+    EnumSpinners._enums.clear()
 
 
-@pytest.mark.parametrize(
-    "enum",
-    [
+@pytest.fixture(
+    params=[
         "line",
         "dots",
-    ],
+    ]
 )
-def test_enum_attributes(spin: EnumSpinners, spinners: enum.Enum, enum: str) -> None:
+def _enum(request):
+    return request.param
 
-    spin.append(spinners)
 
-    assert getattr(spin, enum) == getattr(spinners, enum)
+def test_enum_attributes(
+    _EnumSpinners: EnumSpinners,
+    spinners: enum.Enum,
+    _enum: str,
+) -> None:
+
+    assert getattr(_EnumSpinners, _enum) == getattr(spinners, _enum)
+
+
+def test_enum_item(
+    _EnumSpinners: EnumSpinners, spinners: enum.Enum, _enum: str
+) -> None:
+    assert _EnumSpinners[_enum] == spinners[_enum]
+
+
+def test_enum_member_names(_EnumSpinners: EnumSpinners, spinners: enum.Enum) -> None:
+
+    assert _EnumSpinners._member_names_ == spinners._member_names_
+
+
+def test_enum_member_map(_EnumSpinners: EnumSpinners, spinners: enum.Enum) -> None:
+
+    assert _EnumSpinners._member_map_ == spinners._member_map_
+
+
+def test_enum_value2member_map(
+    _EnumSpinners: EnumSpinners, spinners: enum.Enum
+) -> None:
+
+    assert _EnumSpinners._value2member_map_ == spinners._value2member_map_
+
+
+def test_enum_unhashable_values(
+    _EnumSpinners: EnumSpinners, spinners: enum.Enum
+) -> None:
+
+    assert _EnumSpinners._unhashable_values_ == spinners._unhashable_values_

@@ -1,7 +1,15 @@
 import itertools
 from typing import Any
 
-from spinners.base import BaseSpinners
+from spinners.base import *
+
+
+class classproperty:
+    def __init__(self, f):
+        self.f = f
+
+    def __get__(self, obj, cls):
+        return self.f(cls)
 
 
 class EnumSpinners(BaseSpinners):
@@ -29,7 +37,7 @@ class EnumSpinners(BaseSpinners):
             except KeyError:
                 continue
 
-    @property
+    @classproperty
     def _member_names_(self):
         return list(
             itertools.chain(
@@ -37,7 +45,7 @@ class EnumSpinners(BaseSpinners):
             )
         )
 
-    @property
+    @classproperty
     def _member_map_(self):
         return dict(
             itertools.chain(
@@ -45,7 +53,7 @@ class EnumSpinners(BaseSpinners):
             )
         )
 
-    @property
+    @classproperty
     def _value2member_map_(self):
         return dict(
             itertools.chain(
@@ -53,9 +61,9 @@ class EnumSpinners(BaseSpinners):
             )
         )
 
-    @property
+    @classproperty
     def _unhashable_values_(self):
-        return set(
+        return list(
             itertools.chain(
                 *(enum._unhashable_values_ for enum in self._enums),
             )

@@ -70,6 +70,7 @@ def obj_invalid_spinners(request) -> Dict[str, Dict[str, Any]]:
     return request.param
 
 
+@pytest.fixture
 def invalid_spinner(obj_invalid_spinners) -> enum.Enum:
     return enum.Enum(
         "invalid_spinner",

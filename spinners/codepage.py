@@ -18,3 +18,8 @@ def get_codepage(default: str = None) -> str:
         return default or "utf-8"
 
     return f"cp{cp}"
+
+
+__all__ = [
+    "get_codepage",
+]
