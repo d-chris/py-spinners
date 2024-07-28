@@ -1,3 +1,5 @@
+import enum
+
 import pytest
 
 from spinners.enums import EnumSpinners
@@ -21,7 +23,7 @@ def spin(spinners):
         "dots",
     ],
 )
-def test_enum_attributes(spin, spinners, enum):
+def test_enum_attributes(spin: EnumSpinners, spinners: enum.Enum, enum: str) -> None:
 
     spin.append(spinners)
 

@@ -1,19 +1,22 @@
 import enum
+from typing import Any, Dict, Generator, Type
 
 import pytest
 
 from spinners.base import BaseSpinners
 from spinners.enums import EnumSpinners
+from spinners.future import Spinners
 
 
 @pytest.fixture(
     params=[
         BaseSpinners,
         EnumSpinners,
+        Spinners,
     ],
     ids=lambda cls: cls.__name__,
 )
-def classes(request):
+def classes(request) -> Generator[Type[Any], None, None]:
     cls = request.param
 
     yield cls
@@ -22,7 +25,7 @@ def classes(request):
 
 
 @pytest.fixture
-def obj_spinners():
+def obj_spinners() -> Dict[str, Dict[str, Any]]:
     return {
         "line": {
             "interval": 100,
@@ -46,7 +49,7 @@ def obj_spinners():
 
 
 @pytest.fixture
-def spinners(obj_spinners):
+def spinners(obj_spinners) -> enum.Enum:
     return enum.Enum(
         "spinner",
         obj_spinners,
@@ -63,11 +66,11 @@ def spinners(obj_spinners):
     ],
     ids=lambda e: list(e.keys())[0],
 )
-def obj_invalid_spinners(request):
+def obj_invalid_spinners(request) -> Dict[str, Dict[str, Any]]:
     return request.param
 
 
-def invalid_spinner(obj_invalid_spinners):
+def invalid_spinner(obj_invalid_spinners) -> enum.Enum:
     return enum.Enum(
         "invalid_spinner",
         obj_invalid_spinners,
@@ -77,5 +80,5 @@ def invalid_spinner(obj_invalid_spinners):
 @pytest.fixture(
     params=[list, dict, set],
 )
-def invalid_class(request):
+def invalid_class(request) -> Type[Any]:
     return request.param

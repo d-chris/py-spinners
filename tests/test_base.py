@@ -1,6 +1,7 @@
 import pytest
 
 from spinners.base import *
+from spinners.errors import *
 
 
 @pytest.mark.parametrize(

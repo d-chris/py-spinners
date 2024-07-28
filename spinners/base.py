@@ -1,17 +1,7 @@
 import enum
 from typing import Any
 
-
-class ValidationError(TypeError):
-    pass
-
-
-class ValidationSpinnerError(ValidationError):
-    pass
-
-
-class ValidationObjectError(ValidationError):
-    pass
+from spinners.errors import *
 
 
 class BaseSpinners:
@@ -54,7 +44,4 @@ class BaseSpinners:
 
 __all__ = [
     "BaseSpinners",
-    "ValidationError",
-    "ValidationSpinnerError",
-    "ValidationObjectError",
 ]
