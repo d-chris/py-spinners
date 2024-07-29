@@ -10,6 +10,22 @@ from spinners.errors import *
 
 
 class Spinners(EnumSpinners):
+
+    def __init__(self, *, unique: bool = False):
+
+        if unique is True:
+            self.unique()
+
+    def unique(self) -> bool:
+        seen = set()
+        duplicates = [
+            name for name in self._member_names_ if name in seen or seen.add(name)
+        ]
+        if duplicates:
+            raise DuplicateSpinnerError(duplicates)
+
+        return True
+
     @classmethod
     def _validate_enum(cls, obj: enum.Enum) -> bool:
         valid = super()._validate_enum(obj)

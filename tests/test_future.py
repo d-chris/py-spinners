@@ -25,6 +25,15 @@ def _Spinners():
     Spinners._enums.clear()
 
 
+@pytest.fixture
+def FutureSpinner():
+    Spinners._enums.clear()
+
+    yield Spinners
+
+    Spinners._enums.clear()
+
+
 @pytest.mark.parametrize(
     "cp, result",
     [
@@ -65,3 +74,27 @@ def test_load(_Spinners):
 def test_load_raises(_Spinners):
     with pytest.raises(FileNotFoundError):
         _Spinners.load_spinners("nonexistent.json")
+
+
+def test_unique(FutureSpinner, spinners):
+
+    FutureSpinner.append(spinners)
+
+    assert FutureSpinner(unique=True)
+
+
+def test_unique_raies(FutureSpinner, spinners):
+
+    FutureSpinner.append(spinners)
+    FutureSpinner.append(spinners)
+
+    with pytest.raises(DuplicateSpinnerError):
+        FutureSpinner(unique=True)
+
+
+def test_duplicates(FutureSpinner, spinners):
+
+    FutureSpinner.append(spinners)
+    FutureSpinner.append(spinners)
+
+    assert FutureSpinner()
