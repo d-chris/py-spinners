@@ -17,9 +17,6 @@ class EnumSpinners(BaseSpinners):
     Wrapper class to register multiple Enum classes and access attributes from them.
     """
 
-    def __init__subclass__(cls, **kwargs) -> None:
-        raise NotImplementedError
-
     def __call__(self, name: str) -> Any:
         return self.__getitem__(name)
 

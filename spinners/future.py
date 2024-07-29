@@ -16,6 +16,21 @@ class Spinners(EnumSpinners):
         if unique is True:
             self.unique()
 
+    def __init_subclass__(cls, **kwargs) -> None:
+        super().__init_subclass__()
+
+        try:
+            data = {
+                k: v
+                for k, v in cls.__dict__.items()
+                if not k.startswith("__") and isinstance(v, dict)
+            }
+
+            cls.insert(kwargs.get("priority", -1), enum.Enum(cls.__name__, data))
+        except ValidationError as e:
+            if kwargs.get("strict", False):
+                raise e
+
     def unique(self) -> bool:
         seen = set()
         duplicates = [
@@ -59,7 +74,9 @@ class Spinners(EnumSpinners):
         except AttributeError as e:
             raise ValidationSpinnerError(f"{spinner=} must be of type 'dict'") from e
         except KeyError as e:
-            raise ValidationSpinnerError(f"{e=} must be a key in 'spin'") from e
+            raise ValidationSpinnerError(
+                f"{str(e)} must be a key in '{obj.__name__}'"
+            ) from e
 
         return valid and True
 

@@ -97,4 +97,32 @@ def test_duplicates(FutureSpinner, spinners):
     FutureSpinner.append(spinners)
     FutureSpinner.append(spinners)
 
-    assert FutureSpinner()
+    assert FutureSpinner().spinners().sort() == ["line", "dots"].sort()
+
+
+def test_subclass(FutureSpinner):
+
+    class AsciiSpinner(FutureSpinner):
+        dots = {"interval": 80, "frames": [".  ", ".. ", "...", "   "]}
+        line = {"interval": 100, "frames": ["-", "\\", "|", "/"]}
+
+    class UTFSpinner(FutureSpinner):
+        smiley = {"interval": 200, "frames": ["😄 ", "😝 "]}
+
+    assert FutureSpinner().spinners().sort() == ["dots", "line", "smiley"].sort()
+
+
+def test_subclass_raises(FutureSpinner):
+
+    with pytest.raises(ValidationSpinnerError) as e:
+
+        class InvalidSpinner(FutureSpinner, strict=True):
+            dots = {}
+
+
+def test_subclass_strict(FutureSpinner):
+
+    class InvalidSpinner(FutureSpinner, strict=False):
+        pass
+
+    assert FutureSpinner().spinners() == []
