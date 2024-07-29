@@ -19,6 +19,9 @@ class Spinners(EnumSpinners):
     def __init_subclass__(cls, **kwargs) -> None:
         super().__init_subclass__()
 
+        check = kwargs.get("strict", False)
+        index = kwargs.get("priority", -1)
+
         try:
             data = {
                 k: v
@@ -26,15 +29,19 @@ class Spinners(EnumSpinners):
                 if not k.startswith("__") and isinstance(v, dict)
             }
 
-            cls.insert(kwargs.get("priority", -1), enum.Enum(cls.__name__, data))
+            cls.insert(index, enum.Enum(cls.__name__, data))
+
+            if check:
+                cls.unique()
         except ValidationError as e:
-            if kwargs.get("strict", False):
+            if check:
                 raise e
 
-    def unique(self) -> bool:
+    @classmethod
+    def unique(cls) -> bool:
         seen = set()
         duplicates = [
-            name for name in self._member_names_ if name in seen or seen.add(name)
+            name for name in cls._member_names_ if name in seen or seen.add(name)
         ]
         if duplicates:
             raise DuplicateSpinnerError(duplicates)

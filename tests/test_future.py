@@ -126,3 +126,17 @@ def test_subclass_strict(FutureSpinner):
         pass
 
     assert FutureSpinner().spinners() == []
+
+
+def test_subclass_unique(FutureSpinner):
+    class AsciiSpinner(FutureSpinner, strict=True):
+        dots = {"interval": 80, "frames": [".  ", ".. ", "...", "   "]}
+        line = {"interval": 100, "frames": ["-", "\\", "|", "/"]}
+
+    with pytest.raises(DuplicateSpinnerError):
+
+        class UTFSpinner(FutureSpinner, strict=True):
+            dots = {
+                "interval": 80,
+                "frames": ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"],
+            }
