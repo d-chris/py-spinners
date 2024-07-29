@@ -40,32 +40,30 @@ class EnumSpinners(BaseSpinners):
     @classproperty
     def _member_names_(self):
         return list(
-            itertools.chain(
-                *(enum._member_names_ for enum in self._enums),
-            )
+            itertools.chain.from_iterable(enum._member_names_ for enum in self._enums)
         )
 
     @classproperty
     def _member_map_(self):
         return dict(
-            itertools.chain(
-                *(enum._member_map_.items() for enum in self._enums),
+            itertools.chain.from_iterable(
+                enum._member_map_.items() for enum in self._enums
             )
         )
 
     @classproperty
     def _value2member_map_(self):
         return dict(
-            itertools.chain(
-                *(enum._value2member_map_.items() for enum in self._enums),
+            itertools.chain.from_iterable(
+                enum._value2member_map_.items() for enum in self._enums
             )
         )
 
     @classproperty
     def _unhashable_values_(self):
         return list(
-            itertools.chain(
-                *(enum._unhashable_values_ for enum in self._enums),
+            itertools.chain.from_iterable(
+                enum._unhashable_values_ for enum in self._enums
             )
         )
 
