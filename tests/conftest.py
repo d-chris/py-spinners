@@ -64,6 +64,8 @@ def spinners(obj_spinners) -> enum.Enum:
         {"line": {"interval": 0, "frames": ["-", "\\", "|", "/"]}},
         {"dots": {"interval": 80, "frame": [".  ", ".. ", "...", "   "]}},
         {"empty": {"interval": 100, "frames": []}},
+        {"nolist": {"interval": 100, "frames": None}},
+        {"nostr": {"interval": 100, "frames": [".", 1, "...", "   "]}},
         {"baloon": {"interval": "1", "frames": [".", "o", "O", "°"]}},
     ],
     ids=lambda e: list(e.keys())[0],

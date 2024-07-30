@@ -17,9 +17,6 @@ class EnumSpinners(BaseSpinners):
     Wrapper class to register multiple Enum classes and access attributes from them.
     """
 
-    def __call__(self, name: str) -> Any:
-        return self.__getitem__(name)
-
     def __getattr__(self, name):
         for enum in self._enums:
             try:
@@ -33,6 +30,8 @@ class EnumSpinners(BaseSpinners):
                 return enum[name]
             except KeyError:
                 continue
+
+        raise KeyError(name)
 
     @classproperty
     def _member_names_(self):

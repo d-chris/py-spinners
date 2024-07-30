@@ -78,8 +78,6 @@ class Spinners(EnumSpinners):
                     if not isinstance(frame, str):
                         raise ValidationSpinnerError(f"{frame=} must be of type 'str'")
 
-        except AttributeError as e:
-            raise ValidationSpinnerError(f"{spinner=} must be of type 'dict'") from e
         except KeyError as e:
             raise ValidationSpinnerError(
                 f"{str(e)} must be a key in '{obj.__name__}'"
@@ -88,10 +86,8 @@ class Spinners(EnumSpinners):
         return valid and True
 
     def spinners(self, codepage: str = None) -> List[str]:
-        try:
-            enums = self._member_map_.keys()
-        except AttributeError:
-            return []
+
+        enums = self._member_map_.keys()
 
         if codepage is None:
             return list(enums)
@@ -121,9 +117,6 @@ class Spinners(EnumSpinners):
             jsonfile = pkg_resources.files("spinners").joinpath(
                 "../cli-spinners/spinners.json"
             )
-
-            if not jsonfile.exists():
-                raise FileNotFoundError(f"{jsonfile=} does not exist")
 
         content = Path(jsonfile).read_text(encoding=kwargs.get("encoding", "utf-8"))
 

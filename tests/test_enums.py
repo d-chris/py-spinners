@@ -42,6 +42,11 @@ def test_enum_item(
     assert _EnumSpinners[_enum] == spinners[_enum]
 
 
+def test_enum_raises(_EnumSpinners: EnumSpinners) -> None:
+    with pytest.raises(KeyError):
+        _EnumSpinners["nonexisting"]
+
+
 def test_enum_member_names(_EnumSpinners: EnumSpinners, spinners: enum.Enum) -> None:
 
     assert _EnumSpinners._member_names_ == spinners._member_names_
@@ -64,3 +69,17 @@ def test_enum_unhashable_values(
 ) -> None:
 
     assert _EnumSpinners._unhashable_values_ == spinners._unhashable_values_
+
+
+@pytest.mark.parametrize(
+    "attr, type",
+    [
+        ("_member_names_", list),
+        ("_member_map_", dict),
+        ("_value2member_map_", dict),
+        ("_unhashable_values_", list),
+    ],
+)
+def test_dunder(_EnumSpinners: EnumSpinners, attr, type):
+
+    assert isinstance(getattr(_EnumSpinners, attr), type)
