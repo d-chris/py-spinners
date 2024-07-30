@@ -34,13 +34,6 @@ class BaseSpinners:
 
         return True
 
-    @classmethod
-    def _validate_object(cls, obj: Any) -> bool:
-        if not isinstance(obj, dict):
-            raise ValidationObjectError(f"{obj} must be a 'Dict'")
-
-        return True
-
 
 __all__ = [
     "BaseSpinners",

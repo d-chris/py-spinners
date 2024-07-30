@@ -10,7 +10,6 @@ from spinners.errors import *
         "insert",
         "append",
         "_validate_enum",
-        "_validate_object",
     ],
 )
 def test_base_callables(attr):
