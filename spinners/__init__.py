@@ -7,6 +7,7 @@ Spinners = FutureSpinners.load_spinners()
 
 
 __all__ = [
+    "FutureSpinners",
     "LegacySpinners",
     "Spinners",
     "register_spinner",

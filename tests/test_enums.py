@@ -1,4 +1,5 @@
 import enum
+import sys
 
 import pytest
 
@@ -64,6 +65,10 @@ def test_enum_value2member_map(
     assert _EnumSpinners._value2member_map_ == spinners._value2member_map_
 
 
+@pytest.mark.xfail(
+    sys.version_info < (3, 11),
+    reason="Expected to fail for Python versions less than 3.11",
+)
 def test_enum_unhashable_values(
     _EnumSpinners: EnumSpinners, spinners: enum.Enum
 ) -> None:
@@ -77,7 +82,14 @@ def test_enum_unhashable_values(
         ("_member_names_", list),
         ("_member_map_", dict),
         ("_value2member_map_", dict),
-        ("_unhashable_values_", list),
+        pytest.param(
+            "_unhashable_values_",
+            list,
+            marks=pytest.mark.xfail(
+                sys.version_info < (3, 11),
+                reason="Expected to fail for Python versions less than 3.11",
+            ),
+        ),
     ],
 )
 def test_dunder(_EnumSpinners: EnumSpinners, attr, type):

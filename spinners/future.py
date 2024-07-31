@@ -1,12 +1,17 @@
 import enum
-import importlib.resources as pkg_resources
 import json
+import sys
 from pathlib import Path
 from typing import List, Set
 
 from spinners.codepage import *
 from spinners.enums import *
 from spinners.errors import *
+
+if sys.version_info < (3, 9):
+    import importlib_resources as pkg_resources
+else:
+    import importlib.resources as pkg_resources
 
 
 class Spinners(EnumSpinners):
@@ -41,7 +46,9 @@ class Spinners(EnumSpinners):
     def unique(cls) -> bool:
         seen = set()
         duplicates = [
-            name for name in cls._member_names_ if name in seen or seen.add(name)
+            name
+            for name in cls._member_names_  # pylint: disable=E1133
+            if name in seen or seen.add(name)
         ]
         if duplicates:
             raise DuplicateSpinnerError(duplicates)

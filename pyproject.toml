@@ -46,6 +46,7 @@ include = [ "LICENSE", "cli-spinners/spinners.json", "cli-spinners/license" ]
 
 [tool.poetry.dependencies]
 python = "^3.8.1"
+importlib-resources = { version = "^6.4.0", python = "<3.9" }
 
 [tool.poetry.group.dev.dependencies]
 tox = "^4.16.0"
