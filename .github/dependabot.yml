@@ -1,0 +1,8 @@
+version: 2
+updates:
+  - package-ecosystem: "gitsubmodule"
+    directory: "/cli-spinners"
+    schedule:
+      interval: "daily"
+    target-branch: "develop"
+    open-pull-requests-limit: 5
