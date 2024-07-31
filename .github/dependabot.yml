@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: "gitsubmodule"
-    directory: "/cli-spinners"
+    directory: "/"
     schedule:
       interval: "daily"
     target-branch: "develop"
